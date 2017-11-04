@@ -1,0 +1,623 @@
+ db.crimedb.insert({name:"Brad Pitt",
+                   dob:"01/01/1997",
+                   address:[{building:"Emerald Park",
+                             pincode:411002,
+                             city:"Pune",
+                             area :2    },
+
+                            {building:"Winslow Apt.",
+                             pincode:422007,
+                              city:"Nashik",
+                               area :3  }
+                             ]
+                    } )
+
+
+ db.crimedb.insert({name:"Matt Damon",
+                   dob:"08/01/1995",
+                   address:[{building:"Morning Glory",
+                             pincode:543202,
+                             city:"Lonavla",
+                              area:7},
+
+                            {building:"The Horizon",
+                             pincode:421232,
+                              city:"Dhule",
+                               area:5},
+
+                           {building:"Long Heights",
+                             pincode:422007,
+                              city:"Nashik",
+                             area:3}
+                             ]
+                    } )
+
+
+
+ db.crimedb.insert({name:"Ryan Gosling",
+                   dob:"08/01/1994",
+                   address:[{building:"Finlands Apt.",
+                             pincode:543201,
+                             city:"Pune",
+                             area:3},
+
+                             ]
+                    } )
+
+
+ db.crimedb.insert({name:"Matthew Fassbender",
+                   dob:"06/06/1997",
+                   address:[{building:"Royality Park",
+                             pincode:411002,
+                             city:"Mumbai",
+                             area:1},
+
+                            {building:"Salt Plane",
+                             pincode:422003,
+                              city:"Khar",
+                              area:5}
+                             ]
+                    } )
+
+db.crimedb.insert({name:"Jared Leto",
+                   dob:"08/06/1997",
+                   address:[{building:"Mason Square",
+                             pincode:411003,
+                             city:"Pune",
+                             area:3},
+                            {building:"DC Apt",
+                             pincode:422005,
+                              city:"Konkan",
+                              area:2}
+
+                         
+                             ]
+                    } )
+
+
+
+> db.crimedb.find().pretty()
+{
+	"_id" : ObjectId("59cbc97565c07d41b10de055"),
+	"name" : "Brad Pitt",
+	"dob" : "01/01/1997",
+	"address" : [
+		{
+			"building" : "Emerald Park",
+			"pincode" : 411002,
+			"city" : "Pune"
+		},
+		{
+			"building" : "Winslow Apt.",
+			"pincode" : 422007,
+			"city" : "Nashik"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbca9e65c07d41b10de056"),
+	"name" : "Matt Damon",
+	"dob" : "08/01/1995",
+	"address" : [
+		{
+			"building" : "Morning Glory",
+			"pincode" : 543202,
+			"city" : "Lonavla"
+		},
+		{
+			"building" : "The Horizon",
+			"pincode" : 421232,
+			"city" : "Dhule"
+		},
+		{
+			"building" : "Long Heights",
+			"pincode" : 422007,
+			"city" : "Nashik"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbcae865c07d41b10de057"),
+	"name" : "Ryan Gosling",
+	"dob" : "08/01/1994",
+	"address" : [
+		{
+			"building" : "Finlands Apt.",
+			"pincode" : 543201,
+			"city" : "Pune"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbcb6e65c07d41b10de058"),
+	"name" : "Matthew Fassbender",
+	"dob" : "06/06/1997",
+	"address" : [
+		{
+			"building" : "Royality Park",
+			"pincode" : 411002,
+			"city" : "Mumbai"
+		},
+		{
+			"building" : "Salt Plane",
+			"pincode" : 422003,
+			"city" : "Khar"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbcbda65c07d41b10de059"),
+	"name" : "Jared Leto",
+	"dob" : "08/06/1997",
+	"address" : [
+		{
+			"building" : "Mason Square",
+			"pincode" : 411003,
+			"city" : "Pune"
+		},
+		{
+			"building" : "DC Apt",
+			"pincode" : 422005,
+			"city" : "Konkan"
+		}
+	]
+}
+
+
+1.QUERY AN ENTRY
+ db.crimedb.find(
+...      {
+...       address :
+... {
+... "building" : "Mason Square",
+... "pincode" : 411003,
+... "city" : "Pune"
+... }
+... })
+
+{ "_id" : ObjectId("59cbcbda65c07d41b10de059"), "name" : "Jared Leto", "dob" : "08/06/1997", "address" : [ { "building" : "Mason Square", "pincode" : 411003, "city" : "Pune" }, { "building" : "DC Apt", "pincode" : 422005, "city" : "Konkan" } ] }
+
+
+
+2. DOT-NOTATION
+
+db.crimedb.find({'address.city':"Nashik"}).pretty()
+{
+	"_id" : ObjectId("59cbc97565c07d41b10de055"),
+	"name" : "Brad Pitt",
+	"dob" : "01/01/1997",
+	"address" : [
+		{
+			"building" : "Emerald Park",
+			"pincode" : 411002,
+			"city" : "Pune"
+		},
+		{
+			"building" : "Winslow Apt.",
+			"pincode" : 422007,
+			"city" : "Nashik"
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbca9e65c07d41b10de056"),
+	"name" : "Matt Damon",
+	"dob" : "08/01/1995",
+	"address" : [
+		{
+			"building" : "Morning Glory",
+			"pincode" : 543202,
+			"city" : "Lonavla"
+		},
+		{
+			"building" : "The Horizon",
+			"pincode" : 421232,
+			"city" : "Dhule"
+		},
+		{
+			"building" : "Long Heights",
+			"pincode" : 422007,
+			"city" : "Nashik"
+		}
+	]
+}
+
+
+3.MULTIPLE CONDITIONS:
+
+db.crimedb.find({address:{$elemMatch:{area:{$gt:2,$lte:5}}}}).pretty()
+
+{
+	"_id" : ObjectId("59cbda83b7fe073ed75c944d"),
+	"name" : "Brad Pitt",
+	"dob" : "01/01/1997",
+	"address" : [
+		{
+			"building" : "Emerald Park",
+			"pincode" : 411002,
+			"city" : "Pune",
+			"area" : 2
+		},
+		{
+			"building" : "Winslow Apt.",
+			"pincode" : 422007,
+			"city" : "Nashik",
+			"area" : 3
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbdab7b7fe073ed75c944e"),
+	"name" : "Matt Damon",
+	"dob" : "08/01/1995",
+	"address" : [
+		{
+			"building" : "Morning Glory",
+			"pincode" : 543202,
+			"city" : "Lonavla",
+			"area" : 7
+		},
+		{
+			"building" : "The Horizon",
+			"pincode" : 421232,
+			"city" : "Dhule",
+			"area" : 5
+		},
+		{
+			"building" : "Long Heights",
+			"pincode" : 422007,
+			"city" : "Nashik",
+			"area" : 3
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbdacfb7fe073ed75c944f"),
+	"name" : "Ryan Gosling",
+	"dob" : "08/01/1994",
+	"address" : [
+		{
+			"building" : "Finlands Apt.",
+			"pincode" : 543201,
+			"city" : "Pune",
+			"area" : 3
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbdaf3b7fe073ed75c9450"),
+	"name" : "Matthew Fassbender",
+	"dob" : "06/06/1997",
+	"address" : [
+		{
+			"building" : "Royality Park",
+			"pincode" : 411002,
+			"city" : "Mumbai",
+			"area" : 1
+		},
+		{
+			"building" : "Salt Plane",
+			"pincode" : 422003,
+			"city" : "Khar",
+			"area" : 5
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbdb16b7fe073ed75c9451"),
+	"name" : "Jared Leto",
+	"dob" : "08/06/1997",
+	"address" : [
+		{
+			"building" : "Mason Square",
+			"pincode" : 411003,
+			"city" : "Pune",
+			"area" : 3
+		},
+		{
+			"building" : "DC Apt",
+			"pincode" : 422005,
+			"city" : "Konkan",
+			"area" : 2
+		}
+	]
+}
+
+4.ARRAY INDEX
+
+db.crimedb.find({'address.1.area':{$lte:2}}).pretty()
+
+{
+	"_id" : ObjectId("59cbdb16b7fe073ed75c9451"),
+	"name" : "Jared Leto",
+	"dob" : "08/06/1997",
+	"address" : [
+		{
+			"building" : "Mason Square",
+			"pincode" : 411003,
+			"city" : "Pune",
+			"area" : 3
+		},
+		{
+			"building" : "DC Apt",
+			"pincode" : 422005,
+			"city" : "Konkan",
+			"area" : 2
+		}
+	]
+}
+
+5.UPDATE
+
+db.crimedb.update({"address.pincode":422007},{$set:{"address.$.area":44}},{multi:true})
+WriteResult({ "nMatched" : 2, "nUpserted" : 0, "nModified" : 1 })
+> db.crimedb.find().pretty()
+{
+	"_id" : ObjectId("59cbda83b7fe073ed75c944d"),
+	"name" : "Brad Pitt",
+	"dob" : "01/01/1997",
+	"address" : [
+		{
+			"building" : "Emerald Park",
+			"pincode" : 411002,
+			"city" : "Pune",
+			"area" : 2
+		},
+		{
+			"building" : "Winslow Apt.",
+			"pincode" : 422007,
+			"city" : "Nashik",
+			"area" : 44
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbdab7b7fe073ed75c944e"),
+	"name" : "Matt Damon",
+	"dob" : "08/01/1995",
+	"address" : [
+		{
+			"building" : "Morning Glory",
+			"pincode" : 543202,
+			"city" : "Lonavla",
+			"area" : 7
+		},
+		{
+			"building" : "The Horizon",
+			"pincode" : 421232,
+			"city" : "Dhule",
+			"area" : 5
+		},
+		{
+			"building" : "Long Heights",
+			"pincode" : 422007,
+			"city" : "Nashik",
+			"area" : 44
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbdacfb7fe073ed75c944f"),
+	"name" : "Ryan Gosling",
+	"dob" : "08/01/1994",
+	"address" : [
+		{
+			"building" : "Finlands Apt.",
+			"pincode" : 543201,
+			"city" : "Pune",
+			"area" : 3
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbdaf3b7fe073ed75c9450"),
+	"name" : "Matthew Fassbender",
+	"dob" : "06/06/1997",
+	"address" : [
+		{
+			"building" : "Royality Park",
+			"pincode" : 411002,
+			"city" : "Mumbai",
+			"area" : 1
+		},
+		{
+			"building" : "Salt Plane",
+			"pincode" : 422003,
+			"city" : "Khar",
+			"area" : 5
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbdb16b7fe073ed75c9451"),
+	"name" : "Jared Leto",
+	"dob" : "08/06/1997",
+	"address" : [
+		{
+			"building" : "Mason Square",
+			"pincode" : 411003,
+			"city" : "Pune",
+			"area" : 3
+		},
+		{
+			"building" : "DC Apt",
+			"pincode" : 422005,
+			"city" : "Konkan",
+			"area" : 2
+		}
+	]
+}
+
+
+6.REMOVE
+
+ db.crimedb.remove({"address.area":5})
+WriteResult({ "nRemoved" : 2 })
+> db.crimedb.find().pretty()
+{
+	"_id" : ObjectId("59cbda83b7fe073ed75c944d"),
+	"name" : "Brad Pitt",
+	"dob" : "01/01/1997",
+	"address" : [
+		{
+			"building" : "Emerald Park",
+			"pincode" : 411002,
+			"city" : "Pune",
+			"area" : 2
+		},
+		{
+			"building" : "Winslow Apt.",
+			"pincode" : 422007,
+			"city" : "Nashik",
+			"area" : 44
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbdacfb7fe073ed75c944f"),
+	"name" : "Ryan Gosling",
+	"dob" : "08/01/1994",
+	"address" : [
+		{
+			"building" : "Finlands Apt.",
+			"pincode" : 543201,
+			"city" : "Pune",
+			"area" : 3
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbdb16b7fe073ed75c9451"),
+	"name" : "Jared Leto",
+	"dob" : "08/06/1997",
+	"address" : [
+		{
+			"building" : "Mason Square",
+			"pincode" : 411003,
+			"city" : "Pune",
+			"area" : 3
+		},
+		{
+			"building" : "DC Apt",
+			"pincode" : 422005,
+			"city" : "Konkan",
+			"area" : 2
+		}
+	]
+}
+
+
+7. AND OPERATOR
+
+db.crimedb.find({$and:[{"address.city":"Pune"},{"address.area":3}]}).pretty()
+{
+	"_id" : ObjectId("59cbdacfb7fe073ed75c944f"),
+	"name" : "Ryan Gosling",
+	"dob" : "08/01/1994",
+	"address" : [
+		{
+			"building" : "Finlands Apt.",
+			"pincode" : 543201,
+			"city" : "Pune",
+			"area" : 3
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbdb16b7fe073ed75c9451"),
+	"name" : "Jared Leto",
+	"dob" : "08/06/1997",
+	"address" : [
+		{
+			"building" : "Mason Square",
+			"pincode" : 411003,
+			"city" : "Pune",
+			"area" : 3
+		},
+		{
+			"building" : "DC Apt",
+			"pincode" : 422005,
+			"city" : "Konkan",
+			"area" : 2
+		}
+	]
+}
+
+8. OR operator
+
+> db.crimedb.find({$or:[{"address.pincode":422007},{"address.pincode":422005}]}).pretty()
+{
+	"_id" : ObjectId("59cbda83b7fe073ed75c944d"),
+	"name" : "Brad Pitt",
+	"dob" : "01/01/1997",
+	"address" : [
+		{
+			"building" : "Emerald Park",
+			"pincode" : 411002,
+			"city" : "Pune",
+			"area" : 2
+		},
+		{
+			"building" : "Winslow Apt.",
+			"pincode" : 422007,
+			"city" : "Nashik",
+			"area" : 44
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbdb16b7fe073ed75c9451"),
+	"name" : "Jared Leto",
+	"dob" : "08/06/1997",
+	"address" : [
+		{
+			"building" : "Mason Square",
+			"pincode" : 411003,
+			"city" : "Pune",
+			"area" : 3
+		},
+		{
+			"building" : "DC Apt",
+			"pincode" : 422005,
+			"city" : "Konkan",
+			"area" : 2
+		}
+	]
+}
+
+9. NOT OPERATOR
+
+db.crimedb.find({"address.city":{$not:/Nashik/}}).pretty()
+{
+	"_id" : ObjectId("59cbdacfb7fe073ed75c944f"),
+	"name" : "Ryan Gosling",
+	"dob" : "08/01/1994",
+	"address" : [
+		{
+			"building" : "Finlands Apt.",
+			"pincode" : 543201,
+			"city" : "Pune",
+			"area" : 3
+		}
+	]
+}
+{
+	"_id" : ObjectId("59cbdb16b7fe073ed75c9451"),
+	"name" : "Jared Leto",
+	"dob" : "08/06/1997",
+	"address" : [
+		{
+			"building" : "Mason Square",
+			"pincode" : 411003,
+			"city" : "Pune",
+			"area" : 3
+		},
+		{
+			"building" : "DC Apt",
+			"pincode" : 422005,
+			"city" : "Konkan",
+			"area" : 2
+		}
+	]
+}
+

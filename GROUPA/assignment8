@@ -1,0 +1,112 @@
+MariaDB [te3250db]> create trigger student_trigger after update on students for each row  begin  insert into alumni values ( new.roll_no, new.name, new.doa, new.branch, new.percent, new.status); end;//
+Query OK, 0 rows affected (0.06 sec)
+
+MariaDB [te3250db]> select * from students;
+    -> //
++---------+----------+------------+--------+---------+--------+
+| roll_no | name     | doa        | branch | percent | status |
++---------+----------+------------+--------+---------+--------+
+|       1 | samridhi | 2015-01-01 | comp   |      98 | te     |
++---------+----------+------------+--------+---------+--------+
+1 row in set (0.00 sec)
+
+MariaDB [te3250db]> delimiter ;
+MariaDB [te3250db]> update students 
+    -> set roll_no =2
+    -> where name = 'samridhi';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [te3250db]> select * from alumni;
++---------+----------+------------+--------+---------+--------+
+| roll_no | name     | doa        | branch | percent | status |
++---------+----------+------------+--------+---------+--------+
+|       2 | samridhi | 2015-01-01 | comp   |      98 | te     |
++---------+----------+------------+--------+---------+--------+
+1 row in set (0.00 sec)
+
+MariaDB [te3250db]> create trigger student_trigger_2 before update on students for each row  begin insert into alumni values ( old.roll_no, old.name, old.doa, old.branch, old.percent, old.status); end;//
+Query OK, 0 rows affected (0.16 sec)
+
+MariaDB [te3250db]> insert into students values ( 3, 'anuj', '2016-01-01', 'entc', 95, 'be');
+    -> //
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [te3250db]> delimiter //
+MariaDB [te3250db]> delimiter ;
+MariaDB [te3250db]> select * from alumni;
++---------+----------+------------+--------+---------+--------+
+| roll_no | name     | doa        | branch | percent | status |
++---------+----------+------------+--------+---------+--------+
+|       2 | samridhi | 2015-01-01 | comp   |      98 | te     |
++---------+----------+------------+--------+---------+--------+
+1 row in set (0.01 sec)
+
+MariaDB [te3250db]> update students
+    -> set roll_no =4 
+    -> where name = 'anuj';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [te3250db]> select * from alumni;
++---------+----------+------------+--------+---------+--------+
+| roll_no | name     | doa        | branch | percent | status |
++---------+----------+------------+--------+---------+--------+
+|       2 | samridhi | 2015-01-01 | comp   |      98 | te     |
+|       3 | anuj     | 2016-01-01 | entc   |      95 | be     |
+|       4 | anuj     | 2016-01-01 | entc   |      95 | be     |
++---------+----------+------------+--------+---------+--------+
+3 rows in set (0.00 sec)
+
+MariaDB [te3250db]> create trigger student_trigger_3 before delete on students for each row begin insert into alumni values ( old.roll_no, old.name, old.doa, old.branch, old.percent, old.status); end ;//
+Query OK, 0 rows affected (0.07 sec)
+
+MariaDB [te3250db]> select * from students;
+    -> //
++---------+----------+------------+--------+---------+--------+
+| roll_no | name     | doa        | branch | percent | status |
++---------+----------+------------+--------+---------+--------+
+|       2 | samridhi | 2015-01-01 | comp   |      98 | te     |
+|       4 | anuj     | 2016-01-01 | entc   |      95 | be     |
++---------+----------+------------+--------+---------+--------+
+2 rows in set (0.00 sec)
+
+MariaDB [te3250db]> delete from students where roll_no = 4;
+    -> //
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [te3250db]> select * from alumni;
+    -> //
++---------+----------+------------+--------+---------+--------+
+| roll_no | name     | doa        | branch | percent | status |
++---------+----------+------------+--------+---------+--------+
+|       2 | samridhi | 2015-01-01 | comp   |      98 | te     |
+|       3 | anuj     | 2016-01-01 | entc   |      95 | be     |
+|       4 | anuj     | 2016-01-01 | entc   |      95 | be     |
+|       4 | anuj     | 2016-01-01 | entc   |      95 | be     |
++---------+----------+------------+--------+---------+--------+
+4 rows in set (0.00 sec)
+
+
+
+MariaDB [te3250db]> create trigger student_trigger_4 after delete on students for each row begin insert into alumni values ( old.roll_no, old.name, old.doa, old.branch, old.percent, old.status); end ;//
+Query OK, 0 rows affected (0.07 sec)
+
+MariaDB [te3250db]> delete from students where roll_no = 2; //
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [te3250db]> select * from alumni;
+    -> //
++---------+----------+------------+--------+---------+--------+
+| roll_no | name     | doa        | branch | percent | status |
++---------+----------+------------+--------+---------+--------+
+|       2 | samridhi | 2015-01-01 | comp   |      98 | te     |
+|       3 | anuj     | 2016-01-01 | entc   |      95 | be     |
+|       4 | anuj     | 2016-01-01 | entc   |      95 | be     |
+|       4 | anuj     | 2016-01-01 | entc   |      95 | be     |
+|       2 | samridhi | 2015-01-01 | comp   |      98 | te     |
+|       2 | samridhi | 2015-01-01 | comp   |      98 | te     |
++---------+----------+------------+--------+---------+--------+
+6 rows in set (0.00 sec)
+
+

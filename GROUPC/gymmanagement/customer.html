@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Login & Sign Up Form Concept</title>
+  
+  
+  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:400,300'>
+<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+
+      <link rel="stylesheet" href="css0/style.css">
+
+  
+</head>
+
+<body>
+ <header>
+        <!--Making logo-->
+        <a href="start.html" id="logo"></a>
+        <!--making navigation bar-->
+        <nav>
+            <a href="start.html" id="menu-icon"></a>
+            
+        </nav>
+    </header>
+  <div class="cotn_principal">
+<div class="cont_centrar">
+
+  <div class="cont_login">
+<div class="cont_info_log_sign_up">
+      <div class="col_md_login">
+<div class="cont_ba_opcitiy">
+
+        
+        <h2>LOGIN</h2>  
+  
+  <button class="btn_login" onclick="cambiar_login()">LOGIN</button>
+  </div>
+  </div>
+<div class="col_md_sign_up">
+<div class="cont_ba_opcitiy">
+</form>
+
+
+  <h2>SIGN UP</h2>
+
+  
+  
+
+  <button class="btn_sign_up" onclick="cambiar_sign_up()">SIGN UP</button>
+</div>
+  </div>
+       </div>
+
+    
+    <div class="cont_back_info">
+       <div class="cont_img_back_grey">
+       <img src="https://images.unsplash.com/42/U7Fc1sy5SCUDIu4tlJY3_NY_by_PhilippHenzler_philmotion.de.jpg?ixlib=rb-0.3.5&q=50&fm=jpg&crop=entropy&s=7686972873678f32efaf2cd79671673d" alt="" />
+       </div>
+       
+    </div>
+<div class="cont_forms" >
+    <div class="cont_img_back_">
+       <img src="https://images.unsplash.com/42/U7Fc1sy5SCUDIu4tlJY3_NY_by_PhilippHenzler_philmotion.de.jpg?ixlib=rb-0.3.5&q=50&fm=jpg&crop=entropy&s=7686972873678f32efaf2cd79671673d" alt="" />
+       </div>
+<form id="customerloginform" action="login.php" method="post">       
+ <div class="cont_form_login">
+<a href="#" onclick="ocultar_login_sign_up()" ><i class="material-icons">&#xE5C4;</i></a>
+   <h2>LOGIN</h2>
+ <input type="text" name="user" placeholder = "Username"/>
+<input type="password" name="pwd" placeholder="Password" />
+<button type="submit" form="customerloginform" value="Submit">Login</button>
+  </div>
+</form>  
+<form id="customersignupform" action="newuser.php" method="post">
+   <div class="cont_form_sign_up">
+<a href="#" onclick="ocultar_login_sign_up()"><i class="material-icons">&#xE5C4;</i></a>
+     <h2>SIGN UP</h2>
+<input type="text" name="fname" placeholder="First Name" />
+<input type="text" name="lname" placeholder="Last Name" />
+<input type="text" name="age" placeholder="Age" />
+<br>
+<br>
+ <select name="formGender">
+  <option value="">Select Gender</option>
+  <option value="M">Male</option>
+  <option value="F">Female</option>
+  <option value="O">Other</option>
+  
+</select> 
+<input type="text" name="email" placeholder="Email" />
+<input type="text" name="user" placeholder="User" />
+<input type="password" name="pwd" placeholder="Password" />
+<br>
+<br>
+<br>
+<button type="submit" form="customersignupform" value="Submit">Submit</button>
+  </div>
+</form>  
+
+    </div>
+    
+  </div>
+ </div>
+</div>
+  
+    <script  src="js/index.js"></script>
+
+</body>
+</html>

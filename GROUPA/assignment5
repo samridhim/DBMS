@@ -1,0 +1,223 @@
+/*Write a PL/SQL block of code for the following requirements:-
+Schema:
+Customer(Cust_id,Name, DateofPayment, NameofScheme, Status)
+Fine(Cust_id, Date, Amt)
+1. Accept Cust_id & name of scheme from user.
+2. Check the number of days (from date of payment), if days are between 15 to 30 then fine amount will be Rs 5per day.
+3. If no. of days>30, per day fine will be Rs 50 per day & for days less than 30, Rs. 5 per  day.
+4. After payment, status will change from N to P.
+5. If condition of fine is true, then details will be stored into Fine table.
+*/
+
+
+SQL> create table customer(cust_id int, name varchar(40), dop date, nameofscheme varchar(20), status varchar2(1), constraint customer_pk primary key (cust_id)); 
+
+Table created.
+
+SQL> create table fine(cust_id int, date_d date, amt int, constraint fk_customer foreign key(cust_id) references customer(cust_id));
+
+Table created.
+
+SQL> insert into customer values ( 1, 'samridhi', '12-oct-1997', 'lalalala', 'y');
+
+1 row created.
+
+SQL> insert into customer values ( 2, 'madhura', '17-apr-2017', 'lalalala', 'n');
+
+1 row created.
+
+SQL> insert into customer values ( 3, 'nachiket', '02-feb-2017', 'lalalala
+  2  ', 'n');
+
+1 row created.
+
+SQL> insert into customer values ( 4, 'sourav', '02-oct-2017', 'lalalala', 'y');
+
+1 row created.
+
+SQL> insert into customer values ( 5, 'ruchi', '14-aug-2017', 'lalalala' ,'n');
+
+1 row created.
+
+SQL> select * from customer;
+
+   CUST_ID NAME 				    DOP
+---------- ---------------------------------------- ------------------
+NAMEOFSCHEME	     S
+-------------------- -
+	 1 samridhi				    12-OCT-97
+lalalala	     y
+
+	 2 madhura				    17-APR-17
+lalalala	     n
+
+	 3 nachiket				    02-FEB-17
+lalalala	     n
+
+
+   CUST_ID NAME 				    DOP
+---------- ---------------------------------------- ------------------
+NAMEOFSCHEME	     S
+-------------------- -
+	 4 sourav				    02-OCT-17
+lalalala	     y
+
+	 5 ruchi				    14-AUG-17
+lalalala	     n
+
+
+SQL> declare 
+    id number;
+    scheme varchar(20);
+    stat varchar(1);
+    diff number;
+    imag exception;
+    begin  
+    id:=&id;
+    scheme:='&scheme';
+   select status into stat from customer where cust_id = id;
+   if stat = 'n' 
+    then
+    select(trunc(sysdate) - trunc(dop)) as difference into diff from customer where cust_id = id;
+     dbms_output.put_line('not paid, due by : ' || diff || ' days' );
+     if diff > 0 and diff < 30 
+      then 
+       insert into fine values ( id, sysdate, 5*diff);
+     elsif diff > 30 
+	then 
+	 insert into fine values ( id, sysdate, 50*diff);
+     elsif diff < 0
+      then 
+        raise imag; 
+    update customer set status = 'y' where cust_id = id;
+   end if;
+   end if ;
+   exception 
+    when imag then
+     dbms_output.put_line('handling exception');
+   end;
+  /
+Enter value for id: 2
+old   7:     id:=&id;
+new   7:     id:=2;
+Enter value for scheme: lalalala
+old   8:     scheme:='&scheme';
+new   8:     scheme:='lalalala';
+not paid, due by : 121days
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from fine;
+
+   CUST_ID DATE_D		     AMT
+---------- ------------------ ----------
+	 2 16-AUG-17		    6050
+SQL> select * from customer;
+
+   CUST_ID NAME 				    DOP
+---------- ---------------------------------------- ------------------
+NAMEOFSCHEME	     S
+-------------------- -
+	 1 samridhi				    12-OCT-97
+lalalala	     y
+
+	 2 madhura				    17-APR-17
+lalalala	     y
+
+	 3 nachiket				    02-FEB-17
+lalalala	     n
+
+
+   CUST_ID NAME 				    DOP
+---------- ---------------------------------------- ------------------
+NAMEOFSCHEME	     S
+-------------------- -
+	 4 sourav				    02-OCT-17
+lalalala	     y
+
+	 5 ruchi				    14-AUG-17
+lalalala	     n
+
+
+SQL> insert into customer values ( 6, 'anushree', '12-oct-2017', 'lalalala', 'n');
+
+1 row created.
+SQL> select * from customer;
+
+   CUST_ID NAME 				    DOP
+---------- ---------------------------------------- ------------------
+NAMEOFSCHEME	     S
+-------------------- -
+	 1 samridhi				    12-OCT-97
+lalalala	     y
+
+	 2 madhura				    17-APR-17
+lalalala	     y
+
+	 3 nachiket				    02-FEB-17
+lalalala	     n
+
+
+   CUST_ID NAME 				    DOP
+---------- ---------------------------------------- ------------------
+NAMEOFSCHEME	     S
+-------------------- -
+	 4 sourav				    02-OCT-17
+lalalala	     y
+
+	 5 ruchi				    14-AUG-17
+lalalala	     n
+
+	 6 anushree				    12-OCT-17
+lalalala	     n
+
+
+6 rows selected.
+
+
+SQL> declare 
+    id number;
+    scheme varchar(20);
+    stat varchar(1);
+    diff number;
+    imag exception;
+    begin  
+    id:=&id;
+    scheme:='&scheme';
+   select status into stat from customer where cust_id = id;
+   if stat = 'n' 
+    then
+    select(trunc(sysdate) - trunc(dop)) as difference into diff from customer where cust_id = id;
+     dbms_output.put_line('not paid, due by : ' || diff || ' days' );
+     if diff > 0 and diff < 30 
+      then 
+       insert into fine values ( id, sysdate, 5*diff);
+       update customer set status = 'y' where cust_id = id;
+     elsif diff > 30 
+	then 
+	 insert into fine values ( id, sysdate, 50*diff);
+	 update customer set status = 'y' where cust_id = id;
+     elsif diff < 0
+      then 
+        raise imag; 
+   end if;
+   end if ;
+   exception 
+    when imag then
+     dbms_output.put_line('handling exception');
+   end;
+  /
+ Enter value for id: 6
+old   8:     id:=&id;
+new   8:     id:=6;
+Enter value for scheme: lalalala
+old   9:     scheme:='&scheme';
+new   9:     scheme:='lalalala';
+not paid, due by : -57 days
+handling exception
+
+
+
+
+
+

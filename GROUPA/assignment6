@@ -1,0 +1,142 @@
+
+SQL> select * from employee;
+
+       EID PROJECT    S DOP
+---------- ---------- - ------------------
+       100 manhattan  n 10-AUG-17
+       200 stargate   n 11-AUG-17
+       300 project_x  y 12-AUG-17
+       400 manhattan  n 10-AUG-17
+       500 project_x  y 12-AUG-17
+
+
+// implicit cursor 
+
+declare
+    eidin int;
+    eid2 int;
+    status2 varchar(2);
+    project2 varchar(10);
+    flag int :=0;
+   begin
+    
+   eidin :=&eidin;
+   select status into status2 from employee where eidin =eid;
+    if status2= 'n' then 
+   dbms_output.put_line('This entry is not a valid entry');
+  else
+   flag:=1;
+   select eid into eid2 from incentives where eidin=eid;
+   if sql%found then
+    dbms_output.put_line('entry already present');
+   end if;
+   end if;
+   
+   exception
+   when no_data_found then
+   if flag = 0 then
+   dbms_output.put_line ('invalid id entered');
+   else
+   dbms_output.put_line('entry to be made in incentive table');
+   if sql%notfound then
+   select project into project2 from employee where eidin=eid;
+   insert into incentives values ( eidin, project2);
+   end if;
+   end if;
+  end;
+   
+PL/SQL procedure successfully completed.
+
+SQL> select * from incentives;
+
+       EID PROJECT
+---------- ----------
+       300 project_x
+       500 project_x
+
+
+//explicit cursor
+
+ declare
+   status2 varchar(2);
+    eid2 int;
+    project2 varchar(10);
+    cursor cursor1 is select eid, status, project from employee;
+    begin
+   if not(cursor1%isopen) then
+    open cursor1;
+    end if;
+   
+   loop 
+   fetch cursor1 into eid2, status2, project2;
+   exit when cursor1%notfound;
+   if status2='y' then
+   insert into incentives values ( eid2, project2);
+   end if;
+   end loop;
+   close cursor1; 
+   end;
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from incentives;
+
+       EID PROJECT
+---------- ----------
+       300 project_x
+       500 project_x
+
+
+
+//parameterized cursor 
+ declare
+    status2 varchar(2);
+    eid2 int;
+    project2 varchar(10);
+   cursor cursor1(status2 varchar) is select eid, project from employee where status = status2;
+    begin
+    open cursor1('y');
+    loop
+   fetch cursor1 into eid2, project2;
+   exit when cursor1%notfound;
+   insert into incentives values( eid2, project2);
+   end loop;
+   close cursor1;
+   end;
+   
+PL/SQL procedure successfully completed.
+
+SQL> select * from incentives;
+
+       EID PROJECT
+---------- ----------
+       300 project_x
+       500 project_x
+
+//for loop cursor
+ set serveroutput on;
+declare
+    cursor cursor1 is select eid, status, project from employee;
+    begin 
+    for emp in cursor1 
+    loop 
+    if emp.status = 'n' then
+    insert into p_incentives values ( emp.eid, emp.project);
+    end if;
+    end loop;
+   end;
+
+PL/SQL procedure successfully completed.
+   
+SQL> select * from p_incentives;
+
+       EID PROJECT
+---------- ----------
+       100 manhattan
+       200 stargate
+       400 manhattan
+
+
+
+
+

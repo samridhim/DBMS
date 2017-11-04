@@ -1,0 +1,50 @@
+show collections;
+student
+system.indexes
+db.student.find();
+{ "_id" : ObjectId("59a63e2ae2b58347d0bce098"), "name" : "Ram" }
+> db.student.find({"name" : 1} );
+> db.student.update({"name" :"Ram" },{$set : {"name" : "Sam"}});
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.student.find();
+{ "_id" : ObjectId("59a63e2ae2b58347d0bce098"), "name" : "Sam" }
+
+
+
+
+> db.exercises.insert({ name : "Ex2", group : ["LowerBody", "Strength"], description : "This is description for Ex2"});
+WriteResult({ "nInserted" : 1 })
+> db.exercises.find();
+> db.exercises.insert({name : "Ex1", group : ["UpperBody", "Strength"], description : " This is description for Ex1"}) ;
+WriteResult({ "nInserted" : 1 })
+> db.exercises.find({name : "Ex2"} , {description : 1}).limit(2);
+{ "_id" : ObjectId("59b8a8c614ee0df951bb35e4"), "description" : "This is description for Ex2" }
+> db.exercises.find({name : "Ex2"} , {name: 1 ,description : 1}).limit(2);
+{ "_id" : ObjectId("59b8a8c614ee0df951bb35e4"), "name" : "Ex2", "description" : "This is description for Ex2" }
+> db.exercises.save({name :"Samridhi" review : "Hello World"});
+2017-09-13T09:20:55.840+0530 E QUERY    SyntaxError: Unexpected identifier
+> db.exercises.save({name :"Samridhi" ,review : "Hello World"});
+WriteResult({ "nInserted" : 1 })
+> db.exercises.find();
+{ "_id" : ObjectId("59b8a80e14ee0df951bb35e3"), "name" : "Ex1", "group" : [ "UpperBody", "Strength" ], "description" : " This is description for Ex1" }
+{ "_id" : ObjectId("59b8a8c614ee0df951bb35e4"), "name" : "Ex2", "group" : [ "LowerBody", "Strength" ], "description" : "This is description for Ex2" }
+{ "_id" : ObjectId("59b8ab3714ee0df951bb35e5"), "name" : "Samridhi", "review" : "Hello World" }
+> db.exercises.save({name :"Ex1" ,group : ["LowerBody", "Strength"], description : "This is description for Ex1"});
+WriteResult({ "nInserted" : 1 })
+> db.exercises.find();
+{ "_id" : ObjectId("59b8a80e14ee0df951bb35e3"), "name" : "Ex1", "group" : [ "UpperBody", "Strength" ], "description" : " This is description for Ex1" }
+{ "_id" : ObjectId("59b8a8c614ee0df951bb35e4"), "name" : "Ex2", "group" : [ "LowerBody", "Strength" ], "description" : "This is description for Ex2" }
+{ "_id" : ObjectId("59b8ab3714ee0df951bb35e5"), "name" : "Samridhi", "review" : "Hello World" }
+{ "_id" : ObjectId("59b8ab8814ee0df951bb35e6"), "name" : "Ex1", "group" : [ "LowerBody", "Strength" ], "description" : "This is description for Ex1" }
+> db.exercises.remove({name : "Samridhi"});
+WriteResult({ "nRemoved" : 1 })
+
+> db.exercises.find({$or : [ { name : "Ex1" }, {group : "Strength"} ] });
+{ "_id" : ObjectId("59b8a80e14ee0df951bb35e3"), "name" : "Ex1", "group" : [ "UpperBody", "Strength" ], "description" : " This is description for Ex1" }
+{ "_id" : ObjectId("59b8a8c614ee0df951bb35e4"), "name" : "Ex2", "group" : [ "LowerBody", "Strength" ], "description" : "This is description for Ex2" }
+{ "_id" : ObjectId("59b8ab8814ee0df951bb35e6"), "name" : "Ex1", "group" : [ "LowerBody", "Strength" ], "description" : "This is description for Ex1" }
+> db.exercises.find({$and : [ { name : "Ex1" }, {group : "Strength"} ] });
+{ "_id" : ObjectId("59b8a80e14ee0df951bb35e3"), "name" : "Ex1", "group" : [ "UpperBody", "Strength" ], "description" : " This is description for Ex1" }
+
+
+ 

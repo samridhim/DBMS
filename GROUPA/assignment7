@@ -1,0 +1,44 @@
+[tecomp@localhost ~]$ mysql -h 192.168.5.125 -u te3250 -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 155
+Server version: 5.5.43-MariaDB MariaDB Server
+
+Copyright (c) 2000, 2015, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use te3250db
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [te3250db]> delimiter //
+
+MariaDB [te3250db]> create procedure proc_grade() begin declare done int default false; declare n varchar(130); declare id int; declare pur int; declare cursor1 cursor for select customer_id, customer_name, total_purchase from customers; declare continue handler for not found set done = true;  open cursor1; read_loop : loop fetch cursor1 into id, n, pur; if done then leave read_loop; end if; if pur<=4999 and pur>=2000 then  insert into categories values ( id, n, 'silver'); elseif pur<=9999 and pur>=5000 then  insert into categories values (id, n , 'gold'); else insert into categories values ( id, n, 'platinum'); end if; end loop; close cursor1; end;//
+Query OK, 0 rows affected (0.01 sec)
+
+MariaDB [te3250db]> delimiter ;
+
+MariaDB [te3250db]> call proc_grade();
+
+Query OK, 0 rows affected, 1 warning (0.08 sec)
+MariaDB [te3250db]> select * from categories;
+
++-------------+---------------+----------+
+| customer_id | customer_name | class    |
++-------------+---------------+----------+
+|           1 | samridhi      | gold     |
+|           2 | anuj          | platinum |
+|           3 | somya         | platinum |
+|           4 | srishti       | silver   |
+|           5 | kamlesh       | gold     |
+|           6 | anushree      | gold     |
+|           7 | nidhi         | silver   |
+|           8 | amulya        | platinum |
+|           9 | sourav        | silver   |
+|          10 | nachiket      | gold     |
++-------------+---------------+----------+
+10 rows in set (0.00 sec)
+
+
